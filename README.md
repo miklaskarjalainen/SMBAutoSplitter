@@ -3,6 +3,7 @@
 ## Requiremenets:
    - Nestopia 1.40v
    - Super Mario Bros NTSC
+   - Tested to work on Any% and on Warpless.
 
 ## Installation:
    1. Download the *.asl file and place it to a desired folder.
@@ -14,6 +15,7 @@
 ## Usage: 
    When the script is active it will split every time that a level ends.
    AutoSplit will also start the timer by itself when the timer appears, IF NOT ALREADY RUNNING, you can use your own delay!
+   Note that the end time will not be accurate to the frame and have to be retimed if the run was fast enough!
 
 ## Todo:
    - On warpzone split after the loading screen ends and not when the pipe is entered.
