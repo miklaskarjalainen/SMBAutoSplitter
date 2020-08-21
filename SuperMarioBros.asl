@@ -1,8 +1,8 @@
 state("nestopia")
 {
-	byte State : 0x001B1300 , 0x84 , 0x7D8;
-	byte Level : 0x001B1300 , 0x34 , 0x7C8;
-	byte World : 0x001B1300 , 0x5C , 0x7C7;
+	byte State : 0x001AE0C8 , 0x9C , 0x828;
+	byte Level : 0x001AE0C8 , 0x9C , 0x817;
+	byte World : 0x001AE0C8 , 0x9C , 0x818;
 	byte BowserHP : 0x001AE0C8 , 0xA0 , 0x53B; //Use to check if bowser is on screen
 	//byte FrameCount : 0x001AE0C8 , 0x9C , 0x24; //frame count if you want you could make a calculation for the time, i think that it would work that well tho.
 	
@@ -72,6 +72,7 @@ split
 
 start
 {	
+	print(current.State.ToString());
 	if (current.State==1 && current.World == 0 && current.Level == 0 && current.loadDone==2){
 		vars.EightBowser = false;
 		vars.levelChanged = false;
