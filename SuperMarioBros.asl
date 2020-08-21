@@ -1,8 +1,8 @@
 state("nestopia")
 {
 	byte State : 0x001AE0C8 , 0x9C , 0x828;
-	byte Level : 0x001AE0C8 , 0x9C , 0x817;
-	byte World : 0x001AE0C8 , 0x9C , 0x818;
+	byte Level : 0x001AE0C8 , 0x9C , 0x818;
+	byte World : 0x001AE0C8 , 0x9C , 0x817;
 	byte BowserHP : 0x001AE0C8 , 0xA0 , 0x53B; //Use to check if bowser is on screen
 	//byte FrameCount : 0x001AE0C8 , 0x9C , 0x24; //frame count if you want you could make a calculation for the time, i think that it would work that well tho.
 	
