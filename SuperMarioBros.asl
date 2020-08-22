@@ -31,6 +31,7 @@ reset
 update
 {
 	if (current.State==3) {vars.GameOver=true;} //Player has gameOvered
+	if (current.World == 7 && current.BowserHP > 0){vars.LastCastle = true;} //Bowser Trigger
 	if (current.World == 35 && current.Level == 2){vars.LastCastle = true;} //-3 world trigger
 }
 
