@@ -2,7 +2,7 @@
 
 ## Requiremenets:
    - Nestopia 1.40v
-   - Super Mario Bros NTSC
+   - Super Mario Bros NTSC ROM
    - Tested to work on Any% and on Warpless.
 
 ## Installation:
