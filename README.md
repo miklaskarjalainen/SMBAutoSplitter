@@ -17,6 +17,10 @@
    AutoSplit will also start the timer by itself when the timer appears, IF NOT ALREADY RUNNING, you can use your own delay!
    Note that the end time will not be accurate to the frame and have to be retimed if the run was fast enough!
 
+## Features:
+   - Any% Support
+   - Warpless Support
+   - Minus World Ending Support!
+
 ## Todo:
    - On warpzone split after the loading screen ends and not when the pipe is entered.
-   - Minus World Support

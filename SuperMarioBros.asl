@@ -1,8 +1,8 @@
 state("nestopia")
 {
 	byte State : 0x001AE0C8 , 0x9C , 0x828;
-	byte Level : 0x001AE0C8 , 0x9C , 0x818;
-	byte World : 0x001AE0C8 , 0x9C , 0x817;
+	byte Level : 0x001AE0C8 , 0x9C , 0x818; //Level = curLevel - 1
+	byte World : 0x001AE0C8 , 0x9C , 0x817; //World = curWorld - 1
 	byte BowserHP : 0x001AE0C8 , 0xA0 , 0x53B; //Use to check if bowser is on screen
 	//byte FrameCount : 0x001AE0C8 , 0x9C , 0x24; //frame count if you want you could make a calculation for the time, i think that it would work that well tho.
 	
@@ -13,13 +13,33 @@ state("nestopia")
 init
 {
 	vars.levelChanged = false; //on level change, change this.
-	vars.EightBowser = false; //8 bowser trigger
+	vars.LastCastle = false; //LastCastle trigger (8bowser and -3 can trigger)
+	//vars.EightBowser = false; //8 bowser trigger
+	vars.GameOver = false; //is Player gameovered recently
+}
+
+reset
+{
+	//Player didn't continue after restarting
+	if (current.State==1 && vars.GameOver && current.Level == 0 && current.World == 0)
+	{
+		vars.GameOver=false;
+		return true;
+	}
+}
+
+update
+{
+	if (current.State==3) {vars.GameOver=true;} //Player has gameOvered
+	if (current.World == 35 && current.Level == 2){vars.LastCastle = true;} //-3 world trigger
 }
 
 split
 {
-	if (old.World != current.World || old.Level != current.Level) //if level changed
+	//Check if level has changed.
+	if (old.World != current.World || old.Level != current.Level) 
 	{ 
+		//Cutscenes are it's own levels so they would activate a split.
 		if (old.World == 0 && old.Level == 1) //1-2 cutscene
 		{
 			vars.levelChanged = false;
@@ -40,41 +60,38 @@ split
 			vars.levelChanged = false;
 			return false;
 		}
+		else if (vars.GameOver && current.State==1 && current.World!=0) //Player continued after dying, autosplitter cant undo splits, have to make a workaround
+		{
+			vars.levelChanged = false;
+			vars.GameOver=false;
+			return false;
+		}
 		
 		vars.levelChanged = true;
 	}
-	
-	
-	if (current.World == 7 && current.BowserHP > 0) //if world 8 and bowser on screen
-	{
-		vars.EightBowser = true;
-	}	
-	
-	//
+
 	//SPLIT
 	if (vars.levelChanged==true)
 	{
-		print("World: "+current.World.ToString());
-		print("Level: "+current.Level.ToString());
-		if (current.World==0 && current.Level == 0) {return false;} //Prevent "Ghost Splits" when resetting.
+		if (current.State != 1) {return false;} //Prevent "Ghost Splits" when resetting.
 		vars.levelChanged = false;
 		return true;
 	}
 	
-	if (vars.EightBowser == true && current.onScreenX > 210)
+	if (vars.LastCastle == true && current.onScreenX > 210)
 	{
-		vars.EightBowser = false;
+		vars.LastCastle = false;
 		vars.levelChanged = false;
 		return true;
 	}
 	
 }
 
-start
+start //checked only when the timer is not already running
 {	
-	print(current.State.ToString());
+	//For level enter
 	if (current.State==1 && current.World == 0 && current.Level == 0 && current.loadDone==2){
-		vars.EightBowser = false;
+		vars.LastCastle = false;
 		vars.levelChanged = false;
 		vars.levelChanged = false;
 		return true;
