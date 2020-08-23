@@ -12,10 +12,11 @@ state("nestopia")
 
 init
 {
+	refreshRate = 120;
 	vars.levelChanged = false; //on level change, change this.
-	vars.LastCastle = false; //LastCastle trigger (8bowser and -3 can trigger)
-	//vars.EightBowser = false; //8 bowser trigger
+	vars.LastCastle = false; //LastCastle trigger (8bowser and -3 will trigger)
 	vars.GameOver = false; //is Player gameovered recently
+	vars.doWarpzoneSplit = false;
 }
 
 reset
@@ -30,38 +31,36 @@ reset
 
 update
 {
-	if (current.State==3) {vars.GameOver=true;} //Player has gameOvered
-	if (current.World == 7 && current.BowserHP > 0){vars.LastCastle = true;} //Bowser Trigger
-	if (current.World == 35 && current.Level == 2){vars.LastCastle = true;} //-3 world trigger
+	
+	if (current.State==3)                       {vars.GameOver  =true;} //Player has gameOvered
+	if (current.World==7 && current.BowserHP>0) {vars.LastCastle=true;} //Bowser Trigger
+	if (current.World==35 && current.Level==2)  {vars.LastCastle=true;} //-3 world Trigger
 }
 
 split
 {
+	byte o = old.World;
+	byte c = current.World;
+	
 	//Check if level has changed.
 	if (old.World != current.World || old.Level != current.Level) 
 	{ 
-		//Cutscenes are it's own levels so they would activate a split.
-		if (old.World == 0 && old.Level == 1) //1-2 cutscene
+		
+		
+		if ((c==0 || c==3) && current.Level==2) //Checks if we're in 1-2 4-2 (warpzones)
+		{
+			vars.doWarpzoneSplit=true;
+		} 
+		
+		//Cutscenes are they're own levels so they would activate a split.
+		if ((o==0 || o==1 || o==3 || o==6) && old.Level==1) //If has cutscene
 		{
 			vars.levelChanged = false;
 			return false;
 		}
-		else if (old.World == 1 && old.Level == 1) //2-2 cutscene
-		{
-			vars.levelChanged = false;
-			return false;
-		}
-		else if (old.World == 3 && old.Level == 1) //4-2 cutscene
-		{
-			vars.levelChanged = false;
-			return false;
-		}
-		else if (old.World == 6 && old.Level == 1) //7-2 cutscene
-		{
-			vars.levelChanged = false;
-			return false;
-		}
-		else if (vars.GameOver && current.State==1 && current.World!=0) //Player continued after dying, autosplitter cant undo splits, have to make a workaround
+		
+		//Player continued after dying, autosplitters cant undo splits, have to make a workaround
+		else if (vars.GameOver && current.State==1 && c!=0) 
 		{
 			vars.levelChanged = false;
 			vars.GameOver=false;
@@ -72,13 +71,24 @@ split
 	}
 
 	//SPLIT
-	if (vars.levelChanged==true)
+	if (vars.levelChanged)
 	{
 		if (current.State != 1) {return false;} //Prevent "Ghost Splits" when resetting.
+		if (vars.doWarpzoneSplit) //Split later if warpzone pipe entered
+		{
+			if (current.loadDone==2)
+			{
+				vars.levelChanged = false;
+				vars.doWarpzoneSplit=false;
+				return true;
+			}
+			return false;
+		}
 		vars.levelChanged = false;
 		return true;
 	}
 	
+	//if in -3 or 8-4 and screen is scrolled far enough to hit the axe.
 	if (vars.LastCastle == true && current.onScreenX > 210)
 	{
 		vars.LastCastle = false;
@@ -90,8 +100,8 @@ split
 
 start //checked only when the timer is not already running
 {	
-	//For level enter
-	if (current.State==1 && current.World == 0 && current.Level == 0 && current.loadDone==2){
+	if (current.State==1 && current.World == 0 && current.Level == 0 && current.loadDone==2)
+	{
 		vars.LastCastle = false;
 		vars.levelChanged = false;
 		vars.levelChanged = false;
