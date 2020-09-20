@@ -3,7 +3,7 @@
 ## Requiremenets:
    - Nestopia 1.40v
    - Super Mario Bros NTSC ROM
-   - Tested to work on Any% and on Warpless.
+   - Tested to work on Any%, Warpless and MinusWorld (FDS).
 
 ## Installation:
    1. Download the *.asl file and place it to a desired folder.
@@ -19,11 +19,8 @@
 
 ## Features:
    - Any% Support
-   - Warpless Support
+   - Warpless Support (will do a late splin in 1-2 and 4-2, because that's where any% warpzones are.)
    - Minus World Ending Support!
-
-## Todo:
-   - On warpzone split after the loading screen ends and not when the pipe is entered.
    
 ## Contact:
 Discord: Giffi#8427
