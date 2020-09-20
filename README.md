@@ -24,3 +24,6 @@
 
 ## Todo:
    - On warpzone split after the loading screen ends and not when the pipe is entered.
+   
+## Contact:
+Discord: Giffi#8427
