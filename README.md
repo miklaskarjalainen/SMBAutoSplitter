@@ -19,7 +19,7 @@
 
 ## Features:
    - Any% Support
-   - Warpless Support (will do a late splin in 1-2 and 4-2, because that's where any% warpzones are.)
+   - Warpless Support (will do a late split in 1-2 and 4-2, because that's where any% warpzones are.)
    - Minus World Ending Support!
    
 ## Contact:
