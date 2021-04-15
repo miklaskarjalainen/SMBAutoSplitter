@@ -1,119 +1,147 @@
-state("nestopia")
+// AutoSplitter for Super Mario Bros. //
+//             By. Giffi              //
+
+state("nestopia", "1.40")
 {
-	byte State : 0x001AE0C8 , 0x9C , 0x828;
-	byte Level : 0x001AE0C8 , 0x9C , 0x818; //Level = curLevel - 1
-	byte World : 0x001AE0C8 , 0x9C , 0x817; //World = curWorld - 1
-	byte BowserHP : 0x001AE0C8 , 0xA0 , 0x53B; //Use to check if bowser is on screen
-	//byte FrameCount : 0x001AE0C8 , 0x9C , 0x24; //frame count if you want you could make a calculation for the time, i think that it would work that well tho.
+	// timer //
+	byte hundreds  : 0x001B1300, 0x4C, 0x860;
+	byte tenths    : 0x001B1300, 0x4C, 0x861;
+	byte seconds   : 0x001B1300, 0x4C, 0x862;
 	
-	byte loadDone : 0x001AE0C8,0xA0,0x82A; //equals two when should split in warpzone. Also used on titlescreen!
-	byte onScreenX : 0x001AE0C8,0xA0,0x2BF;
+	// game states //
+	byte world    :	0x001AE0C8, 0x9C, 0x817;
+	byte level    : 0x001AE0C8, 0x9C, 0x818;
+	byte bowserhp : 0x001AE0C8, 0xA0, 0x53B;
+
+	// mario states//
+	byte xoffset : 	0x001AE0C8, 0xA0, 0x2BF;
 }
 
-init
+state("nestopia", "1.50") // Nestopie UE
 {
-	refreshRate = 120;
-	vars.levelChanged = false; //on level change, change this.
-	vars.LastCastle = false; //LastCastle trigger (8bowser and -3 will trigger)
-	vars.GameOver = false; //is Player gameovered recently
-	vars.doWarpzoneSplit = false;
+	// timer //
+	byte hundreds  : 0x00177528, 0x40, 0x0, 0x868;
+	byte tenths    : 0x00177528, 0x40, 0x0, 0x869;
+	byte seconds   : 0x00177528, 0x40, 0x0, 0x86A;
+	
+	// game states //
+	byte world    :	0x00177528, 0x40, 0x0, 0x7CF;
+	byte level    : 0x00177528, 0x40, 0x0, 0x7D0;
+	byte bowserhp : 0x00177528, 0x40, 0x0, 0x4F3;
+	
+	// mario states//
+	byte xoffset : 	0x00177528, 0x40, 0x0, 0x7C5;
 }
 
-reset
+init 
 {
-	//Player didn't continue after restarting
-	if (current.State==1 && vars.GameOver && current.Level == 0 && current.World == 0)
+	// Detect the emulator
+	switch (modules.First().ModuleMemorySize)
 	{
-		vars.GameOver=false;
-		return true;
+		case 1953792: //Nestopia UE
+			version = "1.50";
+			print("Nestopia UE");
+			break;
+		case 2113536: //Nestopia 1.40v
+			version = "1.40";
+			print("Nestopia 1.40");
+			break;
+		default:
+			version = "1.40";
+			print("Invalid Emulator: " + modules.First().ModuleMemorySize.ToString());
+			break;
 	}
+	
+	// Initalize some variables
+	vars.timer				= 0;
+	vars.warpzone_split   	= false;
+	vars.split_on_world    	= 0;
+	vars.split_on_level   	= 0; 
 }
 
 update
 {
-	
-	if (current.State==3)                       {vars.GameOver  =true;} //Player has gameOvered
-	if (current.World==7 && current.BowserHP>0) {vars.LastCastle=true;} //Bowser Trigger
-	if (current.World==35 && current.Level==2)  {vars.LastCastle=true;} //-3 world Trigger
+	// Timer
+	vars.timer = current.hundreds * 100 + current.tenths * 10 + current.seconds;
 }
 
 split
 {
-	byte o = old.World;
-	byte c = current.World;
-	
-	//Check if level has changed.
-	if (old.World != current.World || old.Level != current.Level) 
-	{ 
-		
-		
-		if ((c==0 || c==3) && current.Level==2) //Checks if we're in 1-2 4-2 (warpzones)
-		{
-			vars.doWarpzoneSplit=true;
-		} 
-		
-		//Cutscenes are they're own levels so they would activate a split.
-		if ((o==0 || o==1 || o==3 || o==6) && old.Level==1) //If has cutscene
-		{
-			vars.levelChanged = false;
-			return false;
-		}
-		
-		//Player continued after dying, autosplitters cant undo splits, have to make a workaround
-		else if (vars.GameOver && current.State==1 && c!=0) 
-		{
-			vars.levelChanged = false;
-			vars.GameOver=false;
-			return false;
-		}
-		
-		vars.levelChanged = true;
-	}
-
-	//SPLIT
-	if (vars.levelChanged)
+	// New level
+	if ((current.level != vars.split_on_level) || (current.world != vars.split_on_world))
 	{
-		if (current.State != 1) {return false;} //Prevent "Ghost Splits" when resetting.
-		if (vars.doWarpzoneSplit) //Split later if warpzone pipe entered
+		print("Cur Level: "      + current.level.ToString());
+		print("Cur World: "      + current.world.ToString());
+		print("Split Level: "    + vars.split_on_level.ToString());
+		print("Warpzone Split: " + vars.warpzone_split.ToString());
+		
+		
+		
+		// Warpzone splitting
+		if (old.level == 2 && current.level == 0)
 		{
-			if (current.loadDone==2)
+			vars.warpzone_split = true;
+			return false;
+		}
+		if (vars.warpzone_split )
+		{
+			if (!(vars.timer == 400 || vars.timer == 300))
 			{
-				vars.levelChanged = false;
-				vars.doWarpzoneSplit=false;
-				return true;
+				return false;
 			}
+		}
+			
+		vars.warpzone_split = false;
+		// We've handled the splitting for this level
+		vars.split_on_world = current.world;
+		vars.split_on_level = current.level; 
+		
+		// Handle Cutscene "levels"
+		if		(current.level == 2 && current.world == 0) // 1-2
+		{
 			return false;
 		}
-		vars.levelChanged = false;
+		else if	(current.level == 2 && current.world == 1) // 2-2
+		{
+			return false;
+		}
+		else if	(current.level == 2 && current.world == 3) // 4-2
+		{
+			return false;
+		}
+		else if	(current.level == 2 && current.world == 6) // 7-2
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	
-	//if in -3 or 8-4 and screen is scrolled far enough to hit the axe.
-	if (vars.LastCastle == true && current.onScreenX > 210)
+	// Castles //
+	
+	// 8-4 Is in 8-4 bowser is loaded and xpos is enough to hit the axe
+	if (current.world == 7 && current.level == 3 && current.bowserhp != 0 && current.xoffset > 210)
 	{
-		vars.LastCastle = false;
-		vars.levelChanged = false;
 		return true;
 	}
 	
-}
-
-start //checked only when the timer is not already running
-{	
-	if (current.State==1 && current.World == 0 && current.Level == 0 && current.loadDone==2)
+	// -3
+	if (current.world == 35 && current.level == 2 && current.xoffset > 210)
 	{
-		vars.LastCastle = false;
-		vars.levelChanged = false;
-		vars.levelChanged = false;
 		return true;
 	}
+	
+	return false;
 }
 
-/*            GNU GENERAL PUBLIC LICENSE
-                 Version 2, June 1991
-
- Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
- Everyone is permitted to copy and distribute verbatim copies
- of this license document, but changing it is not allowed.
-*/
+start
+{
+	if (vars.timer == 400 && current.world == 0 && current.level == 0)
+	{
+		// Initalize some variables
+		vars.split_on_world    	= 0;
+		vars.split_on_level   	= 0; 
+		return true;
+	}
+	return false;
+}
