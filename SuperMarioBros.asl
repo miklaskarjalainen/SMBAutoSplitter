@@ -63,6 +63,7 @@ update
 {
 	// Timer
 	vars.timer = current.hundreds * 100 + current.tenths * 10 + current.seconds;
+	
 }
 
 split
@@ -72,13 +73,15 @@ split
 	{
 		//print("Cur Level: "      + current.level.ToString());
 		//print("Cur World: "      + current.world.ToString());
+		//print("Old Level: "      + old.level.ToString());
+		//print("Old World: "      + old.world.ToString());
 		//print("Split Level: "    + vars.split_on_level.ToString());
 		//print("Warpzone Split: " + vars.warpzone_split.ToString());
 		
 		
 		
 		// Warpzone splitting
-		if (old.level == 2 && current.level == 0)
+		if (old.level == 1 && current.level == 0)
 		{
 			vars.warpzone_split = true;
 			return false;
@@ -89,33 +92,37 @@ split
 			{
 				return false;
 			}
+			vars.warpzone_split = false;
 		}
 			
-		vars.warpzone_split = false;
+		
 		// We've handled the splitting for this level
 		vars.split_on_world = current.world;
 		vars.split_on_level = current.level; 
 		
 		// Handle Cutscene "levels"
-		if		(current.level == 2 && current.world == 0) // 1-2
+		if (old.level == 0)
 		{
-			return false;
-		}
-		else if	(current.level == 2 && current.world == 1) // 2-2
-		{
-			return false;
-		}
-		else if	(current.level == 2 && current.world == 3) // 4-2
-		{
-			return false;
-		}
-		else if	(current.level == 2 && current.world == 6) // 7-2
-		{
-			return false;
+			if		(current.level == 2 && current.world == 0) // 1-2
+			{
+				return false;
+			}
+			else if	(current.level == 2 && current.world == 1) // 2-2
+			{
+				return false;
+			}
+			else if	(current.level == 2 && current.world == 3) // 4-2
+			{
+				return false;
+			}
+			else if	(current.level == 2 && current.world == 6) // 7-2
+			{
+				return false;
+			}
 		}
 		
 		return true;
-	}
+	} // End of level change //
 	
 	// Castles //
 	
@@ -136,12 +143,13 @@ split
 
 start
 {
-	print("Cur Level: "      + current.level.ToString());
-	print("Cur World: "      + current.world.ToString());
-	print("Timer: "  		 + vars.timer.ToString());
+	//print("Cur Level: "      + current.level.ToString());
+	//print("Cur World: "      + current.world.ToString());
+	//print("Timer: "  		 + vars.timer.ToString());
 	if (vars.timer == 400 && current.world == 0 && current.level == 0)
 	{
 		// Initalize some variables
+		vars.warpzone_split   	= false;
 		vars.split_on_world    	= 0;
 		vars.split_on_level   	= 0; 
 		return true;
