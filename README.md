@@ -1,6 +1,7 @@
 # LiveSplit AutoSplitter for Super Mario Bros. V2.0!
 
 ## Requiremenets:
+   - [LiveSplit](https://livesplit.org/)
    - [Nestopia 1.40v](http://nestopia.sourceforge.net/) or [Nestopie UE 1.50v](http://0ldsk00l.ca/nestopia/)
    - Super Mario Bros FDS or NTSC ROM
 
