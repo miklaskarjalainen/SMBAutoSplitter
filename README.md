@@ -21,9 +21,8 @@
    5. Done!
 
 ## Usage: 
-   When the script is active it will split every time that a level ends.
-   AutoSplit will also start the timer by itself when the timer appears, IF NOT ALREADY RUNNING, you can use your own delay!
-   Note that the end time will not be accurate to the frame and have to be retimed if the run was fast enough!
+   When the script is active, the autosplitter will start automatically when you start the game, and it will split and the end of every stage.  
+   Note that the end time will not be 100% accurate to the frame, so a recount will be needed if your run is fast enough.  
 
 ## Features:
    - Any% Support
