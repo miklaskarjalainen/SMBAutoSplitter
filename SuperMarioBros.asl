@@ -20,17 +20,17 @@ state("nestopia", "1.40")
 state("nestopia", "1.50") // Nestopie UE
 {
 	// timer //
-	byte hundreds  : 0x00176F90, 0xA8, 0x0, 0x868;
-	byte tenths    : 0x00176F90, 0xA8, 0x0, 0x869;
-	byte seconds   : 0x00176F90, 0xA8, 0x0, 0x86A;
+	byte hundreds  : 0x0017701C, 0x4C, 0xC, 0x860;
+	byte tenths    : 0x0017701C, 0x4C, 0xC, 0x861;
+	byte seconds   : 0x0017701C, 0x4C, 0xC, 0x862;
 	
 	// game states //
-	byte world    : 0x00176F90, 0xA8, 0x0, 0x7CF;
-	byte level    : 0x00176F90, 0xA8, 0x0, 0x7CC;
-	byte bowserhp : 0x00176F90, 0xA8, 0x0, 0x4F3;
+	byte world    : 0x0017701C, 0x4C, 0xC, 0x7C7;
+	byte level    : 0x0017701C, 0x4C, 0xC, 0x7C4;
+	byte bowserhp : 0x0017701C, 0x4C, 0xC, 0x4E8;
 	
 	// mario states//
-	byte xoffset : 	0x00176F90, 0xA8, 0x0, 0x7C5;
+	byte xoffset : 	0x0017701C, 0x4C, 0xC, 0x415;
 }
 
 init 
@@ -138,7 +138,7 @@ start
 {
 	print("Cur Level: "      + current.level.ToString());
 	print("Cur World: "      + current.world.ToString());
-	print("Timer: "  		 + current.hundreds.ToString());
+	print("Timer: "  		 + vars.timer.ToString());
 	if (vars.timer == 400 && current.world == 0 && current.level == 0)
 	{
 		// Initalize some variables
