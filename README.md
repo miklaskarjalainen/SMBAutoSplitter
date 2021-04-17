@@ -29,6 +29,13 @@
    - Warpless Support.
    - Minus World Ending Support!
 
+## Not Working?:  
+   If you didn't get the autosplitter to work, try these following steps.
+   1. Be sure that the script is activated from the splits.
+   2. Redownload [Nestopia 1.40v](http://nestopia.sourceforge.net/) or [Nestopie UE 1.50v](http://0ldsk00l.ca/nestopia/).  
+   3. If you're on Nestopia 1.40v and it didn't not work try [Nestopie UE 1.50v](http://0ldsk00l.ca/nestopia/).  
+   4. If you're on Nestopia 1.50v and it didn't not work try [Nestopia 1.40v](http://nestopia.sourceforge.net/).  
+
 ## Contact:
    The entire auto splitter is made by a guy who almost knows what he's doing so if there's a bug or a feature request don't be scared to message me on discord.
 	Discord: Giffi#8427
