@@ -17,7 +17,7 @@ state("nestopia", "1.40")
 	byte xoffset : 	0x001AE0C8, 0xA0, 0x2BF;
 }
 
-state("nestopia", "1.50") // Nestopie UE
+state("nestopia", "1.50") // Nestopie 1.50 UE
 {
 	// timer //
 	byte hundreds  : 0x0017701C, 0x4C, 0xC, 0x860;
@@ -33,14 +33,34 @@ state("nestopia", "1.50") // Nestopie UE
 	byte xoffset : 	0x0017701C, 0x4C, 0xC, 0x415;
 }
 
+state("nestopia", "1.49") // Nestopie 1.49 UE, because it was easy to add.
+{
+	// timer //
+	byte hundreds  : 0x00171D14, 0x4C, 0xC, 0x860;
+	byte tenths    : 0x00171D14, 0x4C, 0xC, 0x861;
+	byte seconds   : 0x00171D14, 0x4C, 0xC, 0x862;
+	
+	// game states //
+	byte world    : 0x00171D14, 0x4C, 0xC, 0x7C7;
+	byte level    : 0x00171D14, 0x4C, 0xC, 0x7C4;
+	byte bowserhp : 0x00171D14, 0x4C, 0xC, 0x4EB;
+	
+	// mario states//
+	byte xoffset : 	0x00171D14, 0x4C, 0xC, 0x415;
+}
+
 init 
 {
 	// Detect the emulator
 	switch (modules.First().ModuleMemorySize)
 	{
-		case 1953792: //Nestopia UE
+		case 1953792: //Nestopia 1.50 UE
 			version = "1.50";
-			print("Nestopia UE");
+			print("Nestopia 1.50 UE");
+			break;
+		case 1929216: //Nestopia 1.49 UE
+			version = "1.49";
+			print("Nestopia 1.49 UE");
 			break;
 		case 2113536: //Nestopia 1.40v
 			version = "1.40";
