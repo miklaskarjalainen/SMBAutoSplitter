@@ -121,7 +121,7 @@ split
 		vars.split_on_level = current.level; 
 		
 		// Handle Cutscene "levels"
-		if (old.level == 0)
+		if (old.level == 1)
 		{
 			if		(current.level == 2 && current.world == 0) // 1-2
 			{
