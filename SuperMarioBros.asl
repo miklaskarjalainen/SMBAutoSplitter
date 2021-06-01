@@ -1,20 +1,20 @@
-// AutoSplitter for Super Mario Bros. v2.1 //
+// AutoSplitter for Super Mario Bros. v2.2 //
 //                By. Giffi                //
 
-state("nestopia", "1.40")
+state("nestopia", "1.51") // Nestopie 1.51 UE
 {
 	// timer //
-	byte hundreds  : 0x001B1300, 0x4C, 0x860;
-	byte tenths    : 0x001B1300, 0x4C, 0x861;
-	byte seconds   : 0x001B1300, 0x4C, 0x862;
+	byte hundreds  : 0x0017801C, 0x4C, 0xC, 0x860;
+	byte tenths    : 0x0017801C, 0x4C, 0xC, 0x861;
+	byte seconds   : 0x0017801C, 0x4C, 0xC, 0x862;
 	
 	// game states //
-	byte world    :	0x001AE0C8, 0x9C, 0x817;
-	byte level    : 0x001AE0C8, 0x9C, 0x818;
-	byte bowserhp : 0x001AE0C8, 0xA0, 0x53B;
-
+	byte world    : 0x0017801C, 0x4C, 0xC, 0x7C7;
+	byte level    : 0x0017801C, 0x4C, 0xC, 0x7C4;
+	byte bowserhp : 0x0017801C, 0x4C, 0xC, 0x4EB;
+	
 	// mario states//
-	byte xoffset : 	0x001AE0C8, 0xA0, 0x2BF;
+	byte xoffset : 	0x0017801C, 0x4C, 0xC, 0x415;
 }
 
 state("nestopia", "1.50") // Nestopie 1.50 UE
@@ -49,11 +49,31 @@ state("nestopia", "1.49") // Nestopie 1.49 UE, because it was easy to add.
 	byte xoffset : 	0x00171D14, 0x4C, 0xC, 0x415;
 }
 
+state("nestopia", "1.40")
+{
+	// timer //
+	byte hundreds  : 0x001B1300, 0x4C, 0x860;
+	byte tenths    : 0x001B1300, 0x4C, 0x861;
+	byte seconds   : 0x001B1300, 0x4C, 0x862;
+	
+	// game states //
+	byte world    :	0x001AE0C8, 0x9C, 0x817;
+	byte level    : 0x001AE0C8, 0x9C, 0x818;
+	byte bowserhp : 0x001AE0C8, 0xA0, 0x53B;
+
+	// mario states//
+	byte xoffset : 	0x001AE0C8, 0xA0, 0x2BF;
+}
+
 init 
 {
 	// Detect the emulator
 	switch (modules.First().ModuleMemorySize)
 	{
+		case 1966080: //Nestopia 1.51 UE
+			version = "1.51";
+			print("Nestopia 1.51 UE");
+			break;
 		case 1953792: //Nestopia 1.50 UE
 			version = "1.50";
 			print("Nestopia 1.50 UE");
