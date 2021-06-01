@@ -1,8 +1,8 @@
-# LiveSplit AutoSplitter for Super Mario Bros. V2.0!
+# LiveSplit AutoSplitter for Super Mario Bros!
 
 ## Requiremenets:
    - [LiveSplit](https://livesplit.org/)
-   - [Nestopia 1.40v](http://nestopia.sourceforge.net/) or [Nestopie UE 1.50v](http://0ldsk00l.ca/nestopia/)
+   - [Nestopia 1.40v](http://nestopia.sourceforge.net/) or [Nestopie UE 1.51v](http://0ldsk00l.ca/nestopia/)
    - Super Mario Bros FDS or NTSC ROM
 
 ## Installation:
@@ -27,14 +27,12 @@
 ## Features:
    - Any% Support
    - Warpless Support.
-   - Minus World Ending Support!
+   - Minus World Ending Support.
 
 ## Not Working?:  
    If you didn't get the autosplitter to work, try these following steps.
    1. Be sure that the script is activated from the splits.
-   2. Redownload [Nestopia 1.40v](http://nestopia.sourceforge.net/) or [Nestopie UE 1.50v](http://0ldsk00l.ca/nestopia/).  
-   3. If you're on Nestopia 1.40v and it didn't not work try [Nestopie UE 1.50v](http://0ldsk00l.ca/nestopia/).  
-   4. If you're on Nestopia 1.50v and it didn't not work try [Nestopia 1.40v](http://nestopia.sourceforge.net/).  
+   2. Redownload [Nestopia 1.40v](http://nestopia.sourceforge.net/) or [Nestopie UE 1.51v](http://0ldsk00l.ca/nestopia/), if you download the emulator from an another source the version might vary enough to interfere with the auto splitter. 
 
 ## Contact:
    The entire auto splitter is made by a guy who almost knows what he's doing so if there's a bug or a feature request don't be scared to message me on discord.
