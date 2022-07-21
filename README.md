@@ -1,3 +1,6 @@
+# Due to a lack of motivation to mentain this project, you shouldn't use this!
+   You should use [Periwinkle's autosplitter](https://github.com/periwinkle9/smb-autosplitter#usage-instructions) instead! It has way more features and supported emulators than this one!
+
 # LiveSplit AutoSplitter for Super Mario Bros!
 
 ## Requiremenets:
